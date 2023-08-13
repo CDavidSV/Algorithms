@@ -8,6 +8,7 @@ def swap(arr, i, j):
 # Función que genera todas las permutaciones de una lista en orden lexicografico.
 # Entrada: lista de elementos.
 # Salida: lista de listas con todas las permutaciones de la lista de entrada.
+# Complejidad: O(n!)
 def generate_permutations(input_list):
     if input_list == []:
         return [] # si la lista de entrada está vacía, no hay permutaciones.

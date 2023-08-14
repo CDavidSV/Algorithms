@@ -8,13 +8,13 @@ def power_set_bin(n):
         return [[0], [1]] # el conjunto potencia de 1 elemento es {0, 1}.
     else:
         l1 = power_set_bin(n - 1) # Recursivamente generamos el conjunto potencia de n - 1 elementos.
-        l2 = [list(inner) for inner in l1]
-        l2.reverse() # Copia de la lista l1 invertida.
+        l2 = []
 
         for i in range(len(l1)): # Agregamos 0 al inicio de cada lista de l1 y 1 al inicio de cada lista de l2. 
             l1[i].insert(0, 0)
-            l2[i].insert(0, 1)
-
+            l2.append([1] + l1[i][1:])
+        
+        l2.reverse() # Invertimos l2
         return l1 + l2 # Concatenamos las listas l1 y l2.
 
 def main():

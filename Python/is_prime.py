@@ -1,6 +1,7 @@
 # Función recursiva que determina si un número es primo o no
 # Entrada: number, entero positivo y el caso base que en este caso es 2.
 # Salida: True si number es primo, False en otro caso.
+# Complejidad: O(n), donde n es el número de veces que se llama a la función.
 def is_prime(number, i = 2):
     # Si i es igual al numero inicial, entonces number es primo.
     if (number == i):

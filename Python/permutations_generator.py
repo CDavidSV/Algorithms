@@ -57,23 +57,23 @@ def generate_permutations(input_list):
     
 def main():
     # Prueba 1
-    input_list = [1, 2, 3, 4]
+    input_list = [1, 2]
     print(generate_permutations(input_list))
 
     # Prueba 2
-    input_list = ['a', 'b', 'c']
+    input_list = [1, 2, 3]
     print(generate_permutations(input_list))
-
+    
     # Prueba 3
     input_list = [1, 1, 2]
     print(generate_permutations(input_list))
 
     # Prueba 4
-    input_list = [5]
+    input_list = []
     print(generate_permutations(input_list))
 
     # Prueba 5
-    input_list = []
+    input_list = [1, 2, 3, 4]
     print(generate_permutations(input_list))
 
 if __name__ == "__main__":

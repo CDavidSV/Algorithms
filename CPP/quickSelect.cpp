@@ -59,10 +59,31 @@ int quickSelect(std::vector<int> inputVector, int k) {
 }
 
 int main() {
-	// Prueba 1
-	int k = 2;
-	std::vector<int> A = { 6, 1, 24, 4, 5, 7, 2, 8, 9 };
-	int result = quickSelect(A, k);
-	std::cout << result << std::endl;
-	return 0;
+    int k;
+
+    // Prueba 1
+    k = 2;
+    std::vector<int> A1 = {6, 1, 24, 4, 5, 7, 2, 8, 9};
+    int result1 = quickSelect(A1, k);
+    std::cout << "Prueba 1: " << result1 << std::endl;
+
+    // Prueba 2
+    k = 4;
+    std::vector<int> A2 = {9, 8, 7, 6, 5, 4, 3, 2, 1};
+    int result2 = quickSelect(A2, k);
+    std::cout << "Prueba 2: " << result2 << std::endl;
+
+    // Prueba 3
+    k = 6;
+    std::vector<int> A3 = {15, 12, 6, 20, 10, 9, 8, 4};
+    int result3 = quickSelect(A3, k);
+    std::cout << "Prueba 3: " << result3 << std::endl;
+
+    // Prueba 4
+    k = 1;
+    std::vector<int> A4 = {100, 50, 25, 75, 150, 125, 175};
+    int result4 = quickSelect(A4, k);
+    std::cout << "Prueba 4: " << result4 << std::endl;
+
+    return 0;
 }

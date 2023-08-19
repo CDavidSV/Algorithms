@@ -5,28 +5,35 @@ import math
 # Salida: Índice de la moneda falsa
 # Complejidad: O(n*log(n))
 def fake_coin(coinArray):
+    # Declaramos un arreglo de peso para cada subarreglo (3 subarreglos).
     weightArray = []
+
+    # Para calccular el peso de los 3 subarreglos, recorremos el arreglo de monedas y sumamos el peso de cada moneda correspondiente a cada subarreglo.
     currentWeight = 0
     devisor = math.floor(len(coinArray) / 3)
     for i, v in enumerate(coinArray):
         currentWeight += v
-        if (i + 1) % devisor == 0:
+        if (i + 1) % devisor == 0: # Determinamos si ya se completó el peso de un subarreglo
             weightArray.append(currentWeight)
             currentWeight = 0
-    weightArray[2] += currentWeight
+    weightArray[2] += currentWeight # Agregamos el peso restante al último subarreglo
 
+    
     sortedWeightArray = weightArray.copy()
-    sortedWeightArray.sort()
+    sortedWeightArray.sort() # Obtenemos el arreglo ordenado de menor a mayor.
     subArrayIndex = None
-
-    for i in range(0, len(weightArray)):
+    
+    # Buscamos el subarreglo que tiene peso diferente
+    for i in range(0, len(weightArray)): # Comparamos el peso del arreglo ordenado con el arreglo original para asi poder obtener el índice del subarreglo que tiene peso diferente.
         if sortedWeightArray[1] != weightArray[i]:
             subArrayIndex = i
             break
 
+    # Si el divisor es 1, significa que el indice de la moneda falsa es el mismo que el indice del subarreglo que tiene peso diferente.
     if devisor == 1:
         return subArrayIndex
     
+    # Dependiendo del subarreglo que tiene peso diferente, llamamos recursivamente a la función fake_coin() con el subarreglo correspondiente.
     match subArrayIndex:
         case 0:
             result = fake_coin(coinArray[0:devisor])

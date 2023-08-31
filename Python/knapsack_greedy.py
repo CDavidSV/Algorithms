@@ -1,7 +1,7 @@
 # Función que devuelve la cantidad máxima de objetos que se pueden llevar en la mochila
 # Entrada: Lista de tuplas (valor, peso), capacidad de la mochila
 # Salida: Dicciónario con el valor total de los objetos seleccionados y la lista de objetos seleccionados
-# Complejidad: O(n*log(n))
+# Complejidad: O(n) en el caso promedio y O(n^2) en el peor caso
 def greedy_knapsack(items, capacity):
     # Calcula el valor/peso de cada objeto, agregamos tambien el valor y su peso
     # [valor, peso, valor/peso]
@@ -14,13 +14,25 @@ def greedy_knapsack(items, capacity):
     selected_items = []
     current_capacity = 0
     total_value = 0
-    i = 0
-    while current_capacity + value_weight_ratio[i][1] <= capacity: # Se repite hasta que llegue a la capacidad de la mochila
-        selected_items.append(items.index((value_weight_ratio[i][0], value_weight_ratio[i][1]))) # Agregamos el producto seleccionado siempre y cuando quepa en la mochila
-        current_capacity += value_weight_ratio[i][1]
-        total_value += value_weight_ratio[i][0]
-        i += 1
 
+    # Seleccionamos los objetos de mayor valor/peso hasta que no quepan en la mochila
+    for i in range(len(value_weight_ratio)):
+        remaining_capacity = capacity - current_capacity # Capacidad restante de la mochila
+        
+        # Revisamos si el objeto actual cabe en la mochila verificando si su peso es menor o igual a la capacidad restante
+        if current_capacity + value_weight_ratio[i][1] <= capacity:
+            selected_items.append(items.index((value_weight_ratio[i][0], value_weight_ratio[i][1]))) # Agregamos el producto seleccionado siempre y cuando quepa en la mochila
+            current_capacity += value_weight_ratio[i][1]
+            total_value += value_weight_ratio[i][0]
+        else: # Si no cabe y todavia queda espacio en la mochila, buscamos el siguiente objeto que quepa.
+            # Esta es parte de la mejora del algoritmo ya que solo seleccionaba los primeros objetos que cabian en la mochila en base a su valor/peso
+            # Esto tambien fue lo que aumentó la complejidad del algoritmo
+            for j in range(i+1, len(value_weight_ratio)):
+                if remaining_capacity >= value_weight_ratio[j][1]:
+                    selected_items.append(items.index((value_weight_ratio[j][0], value_weight_ratio[j][1])))
+                    current_capacity += value_weight_ratio[j][1]
+                    total_value += value_weight_ratio[j][0]
+                    break
     return { "total_value" : total_value, "selected_items" : selected_items }
 
 def main():

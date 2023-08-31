@@ -1,6 +1,7 @@
 # Función que devuelve la cantidad máxima de oro que se puede obtener en una matriz
 # Entrada: Matriz de posiciónes con su respectivo valor
 # Salida: Cantidad máxima de oro que se puede obtener
+# Complejidad: O(n+m)
 def greedy_gold_mining(C):
     path = [] # Lista de tuplas que contiene la ruta que se debe seguir para obtener la máxima cantidad de oro
 
@@ -23,8 +24,12 @@ def greedy_gold_mining(C):
             new_max_path = (i + 1, j)
             i += 1
         else:
-            new_max_path = (i + 1, j)
-            i += 1
+            if i + 1 <= len(C) - 1:
+                new_max_path = (i + 1, j)
+                i += 1
+            else:
+                new_max_path = (i, j + 1)
+                j += 1
         
         # Se acumula el valor de la posición actual
         max_gold += max(right, bottom)
@@ -39,7 +44,53 @@ def main():
          [2, 1, 4],
          [0, 8, 4]]
     
-    greedy_gold_mining(C)
+    result = greedy_gold_mining(C)
+    print("Cantidad máxima de oro:", result["max_gold"])
+    print("Ruta:", result["path"])
+    print("")
+
+    C = [
+    [0, 4, 3, 0, 2, 3, 2, 0, 0, 3],
+    [1, 2, 1, 2, 0, 1, 3, 3, 3, 1],
+    [3, 4, 0, 3, 3, 1, 4, 2, 1, 0],
+    [1, 0, 1, 1, 2, 3, 4, 0, 3, 2],
+    [4, 2, 2, 4, 1, 1, 4, 2, 1, 1],
+    [2, 0, 0, 2, 4, 0, 3, 1, 1, 3],
+    [2, 3, 0, 2, 0, 1, 4, 1, 3, 2],
+    [3, 4, 1, 3, 0, 2, 2, 3, 3, 0],
+    [1, 0, 4, 4, 0, 2, 3, 4, 1, 2],
+    [2, 3, 2, 4, 2, 2, 1, 1, 1, 1]]
+
+    result = greedy_gold_mining(C)
+    print("Cantidad máxima de oro:", result["max_gold"])
+    print("Ruta:", result["path"])
+    print("")
+
+    C = [
+    [0, 4, 0, 1, 0, 3, 2, 4, 3, 4, 1, 0, 4, 3, 3, 4, 4, 0, 2, 1],
+    [0, 1, 1, 2, 2, 0, 3, 4, 2, 0, 4, 1, 0, 1, 3, 0, 1, 1, 0, 2],
+    [4, 0, 2, 2, 2, 0, 1, 4, 1, 3, 1, 4, 0, 1, 3, 0, 4, 1, 0, 3],
+    [2, 0, 3, 0, 1, 1, 4, 4, 0, 4, 3, 1, 2, 2, 2, 0, 4, 3, 1, 3],
+    [0, 1, 4, 1, 1, 4, 1, 3, 1, 0, 4, 3, 4, 4, 1, 1, 1, 0, 3, 0],
+    [4, 1, 1, 4, 1, 2, 0, 4, 4, 3, 2, 0, 3, 2, 0, 4, 3, 2, 3, 2],
+    [3, 1, 3, 3, 2, 4, 0, 3, 2, 0, 4, 4, 4, 4, 2, 1, 2, 1, 1, 1],
+    [3, 0, 1, 0, 1, 0, 0, 2, 0, 4, 1, 4, 4, 3, 4, 0, 3, 4, 1, 3],
+    [0, 1, 0, 3, 0, 4, 0, 1, 0, 4, 2, 1, 4, 1, 3, 4, 1, 0, 0, 1],
+    [4, 3, 3, 1, 3, 4, 0, 3, 0, 0, 1, 0, 2, 1, 0, 1, 4, 4, 2, 0],
+    [0, 3, 1, 3, 4, 3, 0, 2, 0, 1, 2, 2, 0, 0, 3, 0, 4, 3, 0, 2],
+    [1, 1, 0, 4, 4, 4, 1, 0, 0, 0, 2, 2, 0, 0, 1, 1, 1, 0, 3, 2],
+    [2, 1, 3, 1, 0, 1, 1, 1, 4, 3, 1, 2, 4, 0, 3, 1, 2, 2, 3, 3],
+    [1, 2, 1, 3, 1, 1, 1, 1, 4, 2, 2, 4, 2, 2, 4, 3, 3, 1, 3, 1],
+    [1, 4, 1, 2, 4, 4, 3, 1, 3, 3, 2, 3, 2, 2, 3, 2, 3, 3, 1, 3],
+    [0, 1, 0, 4, 2, 4, 4, 1, 3, 0, 2, 1, 2, 2, 1, 4, 0, 3, 3, 1],
+    [4, 4, 2, 0, 1, 0, 3, 0, 4, 1, 4, 3, 1, 4, 2, 2, 3, 3, 2, 4],
+    [1, 0, 1, 1, 4, 1, 4, 0, 4, 3, 2, 0, 4, 4, 2, 4, 0, 1, 2, 3],
+    [0, 4, 3, 4, 3, 0, 2, 0, 1, 3, 4, 2, 2, 3, 2, 3, 3, 3, 3, 2],
+    [3, 1, 2, 1, 1, 1, 3, 3, 3, 4, 4, 2, 4, 3, 4, 1, 2, 0, 0, 1]]
+
+    result = greedy_gold_mining(C)
+    print("Cantidad máxima de oro:", result["max_gold"])
+    print("Ruta:", result["path"])
 
 if __name__ == '__main__':
     main()

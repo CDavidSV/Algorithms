@@ -1,6 +1,6 @@
 # Función que devuelve la cantidad máxima de oro que se puede obtener en una matriz
 # Entrada: Matriz de posiciónes con su respectivo valor
-# Salida: Cantidad máxima de oro que se puede obtener
+# Salida: Diccionario con la cantidad máxima de oro que se puede obtener y la ruta que se debe seguir para obtenerlo
 # Complejidad: O(n+m)
 def greedy_gold_mining(C):
     path = [] # Lista de tuplas que contiene la ruta que se debe seguir para obtener la máxima cantidad de oro
@@ -38,6 +38,17 @@ def greedy_gold_mining(C):
 
     return { "max_gold" : max_gold, "path" : path }
 
+def print_path(path):
+    i = 0
+    path_string = ""
+    while i < len(path):
+        if i == len(path) - 1:
+            path_string += str(path[i])
+        else:
+            path_string += str(path[i]) + " -> "
+        i += 1
+    print("Path:", path_string)
+
 def main():
     # Prueba 1
     C = [[1, 3, 3],
@@ -46,7 +57,7 @@ def main():
     
     result = greedy_gold_mining(C)
     print("Cantidad máxima de oro:", result["max_gold"])
-    print("Ruta:", result["path"])
+    print_path(result["path"])
     print("")
 
     C = [
@@ -63,7 +74,7 @@ def main():
 
     result = greedy_gold_mining(C)
     print("Cantidad máxima de oro:", result["max_gold"])
-    print("Ruta:", result["path"])
+    print_path(result["path"])
     print("")
 
     C = [
@@ -90,7 +101,7 @@ def main():
 
     result = greedy_gold_mining(C)
     print("Cantidad máxima de oro:", result["max_gold"])
-    print("Ruta:", result["path"])
+    print_path(result["path"])
 
 if __name__ == '__main__':
     main()

@@ -57,7 +57,6 @@ def evaluate(child, maxMovements, C, n, m):
 # Función que devuelve la cantidad máxima de monedas que se pueden recolectar el rebot
 # Entrada: Matriz de monedas con su respectivo valor y la cantidad de filas (n) y columnas (m)
 # Salida: Diccionario con la cantidad máxima de monedas recolectadas y la ruta que se debe seguir para obtenerlo
-# Complejidad:
 def coin_collecting(C, n, m):
     q = queue.PriorityQueue()
 
@@ -121,6 +120,7 @@ def printPath(path, C):
 
     return newPath
 
+# Función principal, aqui se ejecuta el algoritmo
 def main():
     coin_matrices = []
     # Toma las matrices de monedas del archivo de texto
@@ -138,11 +138,11 @@ def main():
         coin_matrices.append(matrix)
     
     # Imprime la cantidad máxima de monedas recolectadas y la ruta que se debe seguir para obtenerlo
-    for i in coin_matrices:
-        print("Prueba 1:")
-        result = coin_collecting(i, len(i) - 1, len(i[0]) - 1)
+    for i, v in enumerate(coin_matrices):
+        print(f"Prueba {i + 1}:")
+        result = coin_collecting(v, len(v) - 1, len(v[0]) - 1)
         print("Cantidad máxima de monedas recolectadas: " + str(result["max_coins"]))
-        print("Ruta: " + printPath(result["path"], i))
+        print("Ruta: " + printPath(result["path"], v))
         print()
 
 if __name__ == "__main__":

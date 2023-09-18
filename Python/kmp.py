@@ -3,7 +3,6 @@
 # Salida: Una lista de tuplas con las posiciones inicial y final de cada coincidencia.
 # Complejidad: O(n + m), donde n es la longitud del texto y m la longitud del patrón.
 def KMP(text, pattern):
-
     # Calcula la lista LPS (Longest Prefix Suffix) para el patron dado.
     # Entrada: pattern, el patrón a buscar.
     # Salida: Una lista con los valores de LPS.
@@ -11,7 +10,7 @@ def KMP(text, pattern):
     def calculateLPS(pattern):
         # Inicializar la lista LPS con ceros.
         LPS = [0 for i in range(len(pattern))]
-            
+
         # Recorremos el patron desde el segundo elemento.
         j = 0
         counter = 1
@@ -22,15 +21,15 @@ def KMP(text, pattern):
                 LPS[i] = counter
                 counter += 1
                 j += 1
-            else: # Si no son iguales, entonces reiniciamos el contador.
+            else:  # Si no son iguales, entonces reiniciamos el contador.
                 counter = 1
-        
+
         return LPS
 
     # Obtener la longitu d del patron y el texto.
     textLength = len(text)
-    patternLength = len(pattern) 
-    
+    patternLength = len(pattern)
+
     # Calcular la lista LPS.
     LPS = calculateLPS(pattern)
 
@@ -44,7 +43,9 @@ def KMP(text, pattern):
         if text[i] == pattern[j]:
             i += 1
             j += 1
-        elif j > 0: # Si no son iguales y j > 0, retrocedemos j dependiendo de la posición en el arreglo LPS.
+        elif (
+            j > 0
+        ):  # Si no son iguales y j > 0, retrocedemos j dependiendo de la posición en el arreglo LPS.
             j = LPS[j - 1]
         else:
             i += 1
@@ -57,6 +58,7 @@ def KMP(text, pattern):
 
     return matches
 
+
 def main():
     # Prueba 1
     text = "paypaypal"
@@ -64,5 +66,6 @@ def main():
 
     print("Patrones (comienzo, fin):", KMP(text, pattern))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

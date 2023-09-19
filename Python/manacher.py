@@ -10,8 +10,6 @@ def longestPalindrome(inputString):
     p_string = '@$' + '$'.join(inputString) + '$#'
     p = [0 for i in range(len(p_string))]
 
-    print(p_string)
-
     # Recorrer la cadena modificada
     for i in range(1, len(p) - 1):
         # Cuando i esta dentro del limite, se copia el valor segun la simetria

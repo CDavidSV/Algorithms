@@ -1,3 +1,7 @@
+# Función que implementa el algoritmo de Manacher para encontrar el palindromo más largo en una cadena.
+# Entrada: una cadena de texto
+# Salida: un diccionario con el palindromo más largo, el indice inicial y el indice final.
+# Complejidad: O(n)
 def longestPalindrome(inputString):
     # Declarar el centro y el liminte inicial
     center = limit = 0

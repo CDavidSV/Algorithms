@@ -19,7 +19,7 @@ class Tree:
     def preorder(self, node, codes = '', codes_table = {}):
         # Si el nodo actual tiene un caracter entonces es una hoja
         # y podemos agregarlo al diccionario
-        if node.char != None:
+        if node.char is not None:
             codes_table[node.char] = codes
             return codes_table
         
@@ -31,6 +31,7 @@ class Tree:
 # Obtiene dos arboles con menor probabilidad de la lista de arboles
 # Entrada: Una lista de arboles
 # Salida: Indices a los dos arboles con menor probabilidad
+# Complejidad: O(n) donde n es la cantidad de arboles en la lista
 def min_probs(trees):
     min_trees = [float('inf'), float('inf')]
     min_tree_indexes = [None, None]
@@ -75,6 +76,7 @@ def merge_trees(tree1, tree2):
 # Función que genera el arbol de huffman para un alfabeto y sus probabilidades
 # Entrada: Una lista de caracteres y una lista de probabilidades
 # Salida: Un arbol de huffman
+# Complejidad: O(n^2)
 def create_huffman_tree(alphabet, probabilities):
     # Crear la lista con los arboles para cada caracter
     trees = []
@@ -104,6 +106,10 @@ def create_huffman_tree(alphabet, probabilities):
     # Retornar el ultimo arbol que resulte
     return trees[0]
 
+# Codifica un texto a binario
+# Entrada: Un texto y un arbol de huffman valido para ese texto
+# Salida: Un texto en binario representando el texto de entrada
+# Complejidad: O(n) donde n es la cantidad de caracteres en el texto
 def encode(text, huffman_tree):
     # Obtenenmos el diccionario con los codigos de cada caracter
     codes_table = huffman_tree.get_codes_table()
@@ -118,10 +124,17 @@ def encode(text, huffman_tree):
     
     return binary_text
 
+# Decodifica un texto binario a su texto original en base a un arbol de huffman
+# Entrada: Un texto binario y un arbol de huffman valido para ese texto
+# Salida: El texto original
+# Complejidad: O(n) donde n es la cantidad de bits en el texto binario
 def decode(binary_text, huffman_tree):
     node = huffman_tree.root
     text = ''
 
+    # Para decodificar el texto, recorremos cada bit del texto binario
+    # y dependiendo de si es un 0 o un 1, nos movemos a la izquierda o derecha respectivamente
+    # hasta llegar a una hoja, en cuyo caso agregamos el caracter al texto y volvemos a la raiz
     for bit in binary_text:
         if bit == '0':
             node = node.left
@@ -132,11 +145,14 @@ def decode(binary_text, huffman_tree):
         
         if node.char != None:
             text += node.char
-            node = huffman_tree.root
+            node = huffman_tree.root # Volver a la raiz
 
     return text
 
 # Calcula la probabilidad de cada caracter en el texto
+# Entrada: Un texto
+# Salida: Una lista con las probabilidades de cada caracter
+# Complejidad: O(n)
 def calculate_character_probabilities(text):
     char_probs = {}
     probabilities = []
@@ -155,6 +171,10 @@ def calculate_character_probabilities(text):
     
     return probabilities
 
+# Obtiene los caracteres unicos en el texto
+# Entrada: Un texto
+# Salida: Una lista con los caracteres unicos en el texto
+# Complejidad: O(n)
 def get_unique_chars(text):
     seen = set()
     unique_chars = []
@@ -197,21 +217,29 @@ def main():
     print("Archivo guardado en binario.txt")
     print("Tabla de codigos:", huffman_tree.get_codes_table())
 
-    print("Deseas codificar o decodificar un texto?")
+    # NOTA: Para la parte de codificar y decodificar lo ingresado por el usuario es diferente al archivo puesto que
+    # el archivo fue generado en base al alfabeto y probabilidades del texto. EN el caso siguiente se usa el alfabeto
+    # completo con numeros y simbolos para que se pueda codificar cualquier texto que ingrese el usuario.
+
+    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 .,;:?!-()\|/_{}[]<>*^%$#@&+~=`"\''
+    probabilities = calculate_character_probabilities(alphabet)
+    huffman_tree = create_huffman_tree(alphabet, probabilities)
+    print("\nDeseas codificar o decodificar un texto?")
     print("1. Codificar")
     print("2. Decodificar")
     print("3. Salir")
 
     option = int(input("Opcion: "))
     while option != 3:
+        os.system('cls')
         if option == 1:
             text = input("Ingresa el texto a codificar: ")
             binary_text = encode(text, huffman_tree)
-            print(binary_text)
+            print("Texto codificado:", binary_text)
         elif option == 2:
             binary_text = input("Ingresa el texto a decodificar: ")
             text = decode(binary_text, huffman_tree)
-            print(text)
+            print("Texto decodificado:", text)
         else:
             print("Opcion invalida")
         
@@ -221,6 +249,7 @@ def main():
         print("3. Salir")
 
         option = int(input("Opcion: "))
+    os.system('cls')
 
 if __name__ == '__main__':
     main()

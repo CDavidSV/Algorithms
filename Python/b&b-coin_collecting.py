@@ -25,7 +25,7 @@ def extend(parent_solution, C, n ,m):
     # Agregar el valor de la moneda a la solución en la posición actual
     # Primero verificamos que al sumarle uno a la fila o a la columna no nos salgamos de la matriz
     # Si nos salimos de la matriz, significa que ya no hay más monedas por recolectar en esa dirección
-    if row + 1 <= n:
+    if row < n:
         child1.coins[i] = (row + 1, col)
         child1.current_position = (row + 1, col)
         child1.value += C[row + 1][col]
@@ -34,7 +34,7 @@ def extend(parent_solution, C, n ,m):
         child1 = None
 
     # Usando el current_position de la solución padre, generamos la solución hija 1 y 2 para la moneda que se encuentra a la derecha y abajo
-    if col + 1 <= m:
+    if col < m:
         child2.coins[i] = (row, col + 1)
         child2.current_position = (row, col + 1)
         child2.value += C[row][col + 1]
@@ -44,15 +44,19 @@ def extend(parent_solution, C, n ,m):
 
     return [child1, child2]
 
-def evaluate(child, maxMovements, C, n, m):
-    # Obtener el valor de la moneda a la derecha y a la izquierda
-    rightValue = C[child.current_position[0]][child.current_position[1] + 1] if child.current_position[1] + 1 <= m else 0
-    leftValue = C[child.current_position[0] + 1][child.current_position[1]] if child.current_position[0] + 1 <= n else 0
-
+def evaluate(child, maxMovements, max_value):
     # Calcular y retornar el upperbound.
     # El upperbound es el valor de la solución actual más el valor de las monedas que faltan por recolectar multiplicado por el valor de la moneda más valiosa.
     # Esto nos permite saber que tan buena es la solución actual y si vale la pena seguir explorando esa rama
-    return child.value + (maxMovements - child.next_unvisited) * max(rightValue, leftValue)
+    return child.value + (maxMovements - child.next_unvisited) * max_value
+
+# Obtiene la moneda con mayor valor en la matriz para calcular el upperbound de la solución padre
+def find_max_value_in_grid(C, n, m):
+    max_value = 0
+    for i in range(n + 1):
+        for j in range(m + 1):
+            max_value = max(max_value, C[i][j])
+    return max_value
 
 # Función que devuelve la cantidad máxima de monedas que se pueden recolectar el rebot
 # Entrada: Matriz de monedas con su respectivo valor y la cantidad de filas (n) y columnas (m)
@@ -62,6 +66,9 @@ def coin_collecting(C, n, m):
 
     # Cantidad máxima de monedas a recolectar
     M = n + m
+
+    # obtener el valor de la moneda más valiosa
+    max_value = find_max_value_in_grid(C, n, m)
 
     # Definir la solución padre
     # Calculamos el upperbound de la solución padre que es el valor de la moneda en la posición (0, 0) más el valor de las monedas que faltan por recolectar (n + m) multiplicado por el valor de la moneda más valiosa
@@ -90,7 +97,7 @@ def coin_collecting(C, n, m):
                     continue
                 
                 # Calcula el upperbound de la solución hija
-                child.upperbound = evaluate(child, M, C, n, m)
+                child.upperbound = evaluate(child, M, max_value)
 
                 # Determinar si la solucion hija es mejor que la best_so_far
                 if child.value > best_so_far.value and child.next_unvisited >= M:

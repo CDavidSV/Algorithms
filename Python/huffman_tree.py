@@ -28,7 +28,7 @@ class Tree:
 
         return codes_table
 
-# Obtiene dos arboles con menor probabilidad de la lista de arboles
+# Obtiene dos arboles con menor probabilidad de la lista de arboles>
 # Entrada: Una lista de arboles
 # Salida: Indices a los dos arboles con menor probabilidad
 # Complejidad: O(n) donde n es la cantidad de arboles en la lista

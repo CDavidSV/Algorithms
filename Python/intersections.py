@@ -9,6 +9,32 @@ def calculate_equation(seg):
 
     return a, b, c
 
+def isInSegment(seg, point):
+    # Calculate vector for segment and point
+    seg_vec = [seg[1][0] - seg[0][0], seg[1][1] - seg[0][1]]
+    point_vec = [point[0] - seg[0][0], point[1] - seg[0][1]]
+
+    # Calculate the cross product
+    cross_product = point_vec[1] * seg_vec[0] - point_vec[0] * seg_vec[1]
+    
+    # If the cross product isn't zero, the point doesn't lie on the line
+    if abs(cross_product) != 0:
+        return False
+
+    # Calculate the dot product
+    dot_product = point_vec[0] * seg_vec[0] + point_vec[1] * seg_vec[1]
+    
+    # Check that the point lies within the segment
+    if dot_product < 0:
+        return False
+    
+    # Check if the point lies within the segment and not on the extended line
+    segment_length_squared = seg_vec[0]**2 + seg_vec[1]**2
+    if dot_product > segment_length_squared:
+        return False
+
+    return True
+
 def intersect(seg_1, seg_2):
     # Obtenemos las ecuaciones de los segmentos de recta
     a_1, b_1, c_1 = calculate_equation(seg_1)
@@ -26,19 +52,14 @@ def intersect(seg_1, seg_2):
     y = (a_1 * c_2 - a_2 * c_1) / d
 
     # Verificar si el punto de interseccion esta en los segmentos
-    cross_product = (y - seg_1[0][1]) * (seg_1[1][0] - seg_1[0][0]) - (x - seg_1[0][0]) * (seg_1[1][1] - seg_1[0][1])
-    if abs(cross_product) != 0:
-        return False
-    
-    dot_product = (x - seg_1[0][0]) * (seg_1[1][0] - seg_1[0][0]) + (y - seg_1[0][1]) * (seg_1[1][1] - seg_1[0][1])
-    if dot_product < 0:
+    if not isInSegment(seg_1, (x, y)) or not isInSegment(seg_2, (x, y)):
         return False
     
     # Graficar los segmentos y el punto de interseccion
-    x_values_seg_1 = [seg_1[0][0], seg_1[1][0], x]
-    y_values_seg_1 = [seg_1[0][1], seg_1[1][1], y]
-    x_values_seg_2 = [seg_2[0][0], seg_2[1][0], x]
-    y_values_seg_2 = [seg_2[0][1], seg_2[1][1], y]
+    x_values_seg_1 = [seg_1[0][0], seg_1[1][0]]
+    y_values_seg_1 = [seg_1[0][1], seg_1[1][1]]
+    x_values_seg_2 = [seg_2[0][0], seg_2[1][0]]
+    y_values_seg_2 = [seg_2[0][1], seg_2[1][1]]
 
     plt.plot(x_values_seg_1, y_values_seg_1, 'ro', linestyle="--", color="red")
     plt.plot(x_values_seg_2, y_values_seg_2, 'bo', linestyle="--", color="green")
@@ -53,7 +74,7 @@ def intersect(seg_1, seg_2):
 
 def main():
     seg_1 = ((0, 0), (1, 1))
-    seg_2 = ((0, 1), (0.3, 0))
+    seg_2 = ((0, 1), (0, 0))
 
     print(intersect(seg_1, seg_2))
 
